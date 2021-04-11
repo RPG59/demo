@@ -6,8 +6,9 @@
     precision lowp float;
 #endif
 
+in vec3 v_pos;
 out vec4 color;
 
 void main() {
-    color = vec4(.3, .8, .9, 1.);
+    color = vec4(v_pos.x, .1, .9, 1.);
 }
