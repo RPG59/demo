@@ -22,22 +22,15 @@ export class Shader {
 		this.createProgram(vsId, fsId);
 	}
 
-	enable(): void {
-		gl.useProgram(this.program);
-	}
-
-	disable(): void {
-		gl.useProgram(null);
-	}
-
-	createShader(type: number, data: string): WebGLShader {
+	private createShader(type: number, data: string): WebGLShader {
 		const id = gl.createShader(type);
 		gl.shaderSource(id, data);
 		return id;
 	}
 
-	compileShader(shaderId: WebGLShader): boolean {
+	private compileShader(shaderId: WebGLShader): boolean {
 		gl.compileShader(shaderId);
+
 		if (gl.getShaderParameter(shaderId, gl.COMPILE_STATUS)) {
 			return true;
 		}
@@ -45,7 +38,7 @@ export class Shader {
 		throw new Error(`[shader]: ${gl.getShaderInfoLog(shaderId)}`);
 	}
 
-	createProgram(vsId: WebGLShader, fsId: WebGLShader): void {
+	private createProgram(vsId: WebGLShader, fsId: WebGLShader): void {
 		this.program = gl.createProgram();
 		gl.attachShader(this.program, vsId);
 		gl.attachShader(this.program, fsId);
@@ -53,6 +46,14 @@ export class Shader {
 
 		gl.deleteShader(vsId);
 		gl.deleteShader(fsId);
+	}
+
+	enable(): void {
+		gl.useProgram(this.program);
+	}
+
+	disable(): void {
+		gl.useProgram(null);
 	}
 
 	setUniform1i(name: string, data: number): void {
