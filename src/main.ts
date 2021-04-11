@@ -38,12 +38,9 @@ defaultShader.enable();
 
 const render = () => {
 	const time = Date.now() / 1e3;
+	const cameraPosition = new float3(Math.sin(time), 1, Math.cos(time));
 	const projMatrix = new float4x4().perspective(Math.PI / 2, WIDTH / HEIGHT, 0.1, 100);
-	const viewMatrix = new float4x4().lookAt(
-		new float3(Math.sin(time), 1, Math.cos(time)),
-		new float3(),
-		new float3(0, 1, 0)
-	);
+	const viewMatrix = new float4x4().lookAt(cameraPosition, new float3(), new float3(0, 1, 0));
 
 	defaultShader.setViewMatrix(viewMatrix);
 	defaultShader.setProjectionMatrix(projMatrix);
