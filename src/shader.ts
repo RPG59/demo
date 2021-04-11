@@ -1,6 +1,6 @@
-import { gl } from './main';
 import float3 from './math/float3';
 import float4x4 from './math/float4x4';
+import { gl } from './main';
 
 enum SHADER_CONSTANTS {
 	MODEL_MATRIX = 'u_modelMatrix',
@@ -11,16 +11,15 @@ enum SHADER_CONSTANTS {
 
 export class Shader {
 	program: WebGLProgram;
-	fsId: WebGLShader;
-	vsId: WebGLShader;
 
 	constructor(vs: string, fs: string) {
-		this.vsId = this.createShader(gl.VERTEX_SHADER, vs);
-		this.fsId = this.createShader(gl.FRAGMENT_SHADER, fs);
+		const vsId = this.createShader(gl.VERTEX_SHADER, vs);
+		const fsId = this.createShader(gl.FRAGMENT_SHADER, fs);
 
-		if (!this.compileShader(this.vsId)) return;
-		if (!this.compileShader(this.fsId)) return;
-		this.createProgram();
+		this.compileShader(vsId);
+		this.compileShader(fsId);
+
+		this.createProgram(vsId, fsId);
 	}
 
 	enable(): void {
@@ -43,18 +42,17 @@ export class Shader {
 			return true;
 		}
 
-		console.log('%cSHADER COMPILE ERROR: ' + gl.getShaderInfoLog(shaderId), 'color: red');
-		return false;
+		throw new Error(`[shader]: ${gl.getShaderInfoLog(shaderId)}`);
 	}
 
-	createProgram(): void {
+	createProgram(vsId: WebGLShader, fsId: WebGLShader): void {
 		this.program = gl.createProgram();
-		gl.attachShader(this.program, this.vsId);
-		gl.attachShader(this.program, this.fsId);
+		gl.attachShader(this.program, vsId);
+		gl.attachShader(this.program, fsId);
 		gl.linkProgram(this.program);
 
-		gl.deleteShader(this.vsId);
-		gl.deleteShader(this.fsId);
+		gl.deleteShader(vsId);
+		gl.deleteShader(fsId);
 	}
 
 	setUniform1i(name: string, data: number): void {

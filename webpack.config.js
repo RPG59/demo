@@ -27,5 +27,7 @@ module.exports = {
 		contentBase: __dirname,
 		compress: false,
 		port: 6969,
+		clientLogLevel: 'none',
 	},
+	devtool: 'source-map',
 };
