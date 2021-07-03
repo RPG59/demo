@@ -1,14 +1,18 @@
 #version 300 es
 
-layout(location = 0) in vec4 pos;
+layout(location = 0) in vec4 a_position;
+layout(location = 1) in vec3 a_normals;
 
 uniform mat4 u_projMatrix;
 uniform mat4 u_viewMatrix;
-uniform mat4 u_modelMatrix;
 
-out vec3 v_pos;
+out vec3 v_positions;
+out vec3 v_normals;
+
 
 void main() {
-    v_pos = pos.xyz;
-    gl_Position = u_projMatrix * u_viewMatrix * pos;
+    v_positions = a_position.xyz;
+    v_normals = a_normals;
+
+    gl_Position = u_projMatrix * u_viewMatrix * a_position;
 }

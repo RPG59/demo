@@ -127,8 +127,8 @@ export default class float4x4 {
 		return this;
 	}
 
-	perspective(fovyDeg: number, aspect: number, near: number, far: number) {
-		const f = 1 / Math.tan(fovyDeg / 2);
+	perspective(fovRad: number, aspect: number, near: number, far: number) {
+		const f = 1 / Math.tan(fovRad / 2);
 		const nf = 1 / (near - far);
 		const res = new float4x4();
 

@@ -6,7 +6,9 @@
     precision lowp float;
 #endif
 
-in vec3 v_pos;
+in vec3 v_positions;
+in vec3 v_normals;
+
 out vec4 color;
 
 uniform vec3 u_viewPos;
@@ -20,12 +22,12 @@ vec3 lightPos = vec3(1, 1, 1);
 vec3 albedo = vec3(1, 1, 1);
 
 void main() {
-    vec3 norm = normalize(v_pos);
-    vec3 lightDir = normalize(lightPos - v_pos);
+    vec3 norm = normalize(v_normals);
+    vec3 lightDir = normalize(lightPos - v_positions);
     float diff = max(dot(norm, lightDir), 0.);
     vec3 diffuse = diffuseStength * diff * lightColor;
 
-    vec3 viewDir = normalize(u_viewPos - v_pos);
+    vec3 viewDir = normalize(u_viewPos - v_positions);
     vec3 reflectDir = reflect(-lightDir, norm);
     float spec = pow(max(dot(viewDir, reflectDir), 0.), 32.);
     vec3 specular = specularStrength * spec * lightColor;
