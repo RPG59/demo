@@ -12,7 +12,7 @@ canvas.height = HEIGHT;
 document.body.appendChild(canvas);
 
 enum BufferLocation {
-	VBO,
+	VBO = 0,
 }
 
 // prettier-ignore
