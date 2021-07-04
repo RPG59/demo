@@ -12,7 +12,7 @@ canvas.height = HEIGHT;
 document.body.appendChild(canvas);
 
 enum BufferLocation {
-	VBO = 0,
+	Vbo = 0,
 }
 
 // prettier-ignore
@@ -24,14 +24,15 @@ const vertices = new Float32Array([
 const vectorSize = 3;
 
 export const gl: WebGL2RenderingContext = canvas.getContext('webgl2');
-const defaultShader = new Shader(VS, FS);
-const VBO = gl.createBuffer();
 
-gl.bindBuffer(gl.ARRAY_BUFFER, VBO);
+const defaultShader = new Shader(VS, FS);
+const vbo = gl.createBuffer();
+
+gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
 gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
 
-gl.enableVertexAttribArray(BufferLocation.VBO);
-gl.vertexAttribPointer(BufferLocation.VBO, vectorSize, gl.FLOAT, false, 0, 0);
+gl.enableVertexAttribArray(BufferLocation.Vbo);
+gl.vertexAttribPointer(BufferLocation.Vbo, vectorSize, gl.FLOAT, false, 0, 0);
 
 defaultShader.enable();
 gl.drawArrays(gl.TRIANGLES, 0, vertices.length / vectorSize);
