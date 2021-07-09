@@ -54,6 +54,17 @@ gl.vertexAttribPointer(
 const shader = new Shader(VS, FS);
 shader.enable();
 
+const projMatrix = new float4x4().perspective(Math.PI / 2, WIDTH / HEIGHT, 0.1, 100);
+shader.setProjectionMatrix(projMatrix);
+
+const viewMatrix = new float4x4().lookAt(
+	new float3(1, 1, 1),
+	new float3(0, 0, 0),
+	new float3(0, 1, 0)
+);
+
+shader.setViewMatrix(viewMatrix);
+
 function render() {
 	gl.clearColor(0, 0, 0, 1);
 	gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
