@@ -11,7 +11,6 @@ if (!canvas || !(canvas instanceof HTMLCanvasElement)) {
 	throw new Error('Canvas element dont found!');
 }
 
-
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
@@ -24,7 +23,7 @@ gl.enable(gl.DEPTH_TEST);
 
 enum BufferLocation {
 	vertices = 0,
-	normals = 1
+	normals = 1,
 }
 
 const VBO: WebGLBuffer = gl.createBuffer();
@@ -33,32 +32,33 @@ gl.bindBuffer(gl.ARRAY_BUFFER, VBO);
 gl.bufferData(gl.ARRAY_BUFFER, CUBE.vertices, gl.STATIC_DRAW);
 
 gl.enableVertexAttribArray(BufferLocation.vertices);
-gl.vertexAttribPointer(BufferLocation.vertices, 3, gl.FLOAT, false, 8 * Float32Array.BYTES_PER_ELEMENT, 0);
+gl.vertexAttribPointer(
+	BufferLocation.vertices,
+	3,
+	gl.FLOAT,
+	false,
+	8 * Float32Array.BYTES_PER_ELEMENT,
+	0
+);
 
 gl.enableVertexAttribArray(BufferLocation.normals);
-gl.vertexAttribPointer(BufferLocation.normals, 3, gl.FLOAT, false, 8 * Float32Array.BYTES_PER_ELEMENT, 3 * Float32Array.BYTES_PER_ELEMENT);
+gl.vertexAttribPointer(
+	BufferLocation.normals,
+	3,
+	gl.FLOAT,
+	false,
+	8 * Float32Array.BYTES_PER_ELEMENT,
+	3 * Float32Array.BYTES_PER_ELEMENT
+);
 
 const shader = new Shader(VS, FS);
 shader.enable();
 
 function render() {
-	const time = Date.now() / 1000;
-	const cameraPosition = new float3(Math.sin(time), 1, Math.cos(time));
-	const projMatrix = new float4x4().perspective(Math.PI / 2, WIDTH / HEIGHT, 0.1, 100);
-	const viewMatrix = new float4x4().lookAt(
-		cameraPosition,
-		new float3(0, 0, 0),
-		new float3(0, 1, 0)
-	);
-
-	shader.setProjectionMatrix(projMatrix);
-	shader.setViewMatrix(viewMatrix);
-	shader.setViewPosition(cameraPosition);
-
 	gl.clearColor(0, 0, 0, 1);
 	gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-	gl.drawArrays(gl.TRIANGLES, 0, CUBE.numberOfVertices)
+	gl.drawArrays(gl.TRIANGLES, 0, CUBE.numberOfVertices);
 	requestAnimationFrame(render);
 }
 
